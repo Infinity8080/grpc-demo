@@ -1,0 +1,55 @@
+syntax = "proto3";
+package demo;
+
+option go_package = "github.com/Infinity8080/grpc-demo/proto";
+
+message GreetingRequest {
+  string name = 1;
+}
+
+message GreetingResponse {
+  string greeting_message = 1;
+}
+
+service GreetingService {
+  rpc GreetUser(GreetingRequest) returns (GreetingResponse);
+}
+
+//Streaming
+// The server is streaming to the client
+message CountdownRequest {
+  int32 starting_number = 1;
+}
+
+message CountdownResponse {
+  int32 current_number = 1;
+}
+
+service CountdownService {
+  rpc CountdownNumber(CountdownRequest) returns (stream CountdownResponse);
+}
+
+//The client is streaming to the server
+
+message SumRequest {
+  int32 number = 1;
+}
+
+message SumResponse {
+  int32 sum = 1;
+}
+
+service SumService {
+  rpc Sum(stream SumRequest) returns (SumResponse);
+}
+
+message ChatRequest {
+  string incoming_message = 1;
+}
+message ChatResponse {
+  string outgoing_message = 1;
+}
+
+service ChatService {
+  rpc Chat(stream ChatRequest) returns (stream ChatResponse);
+}
